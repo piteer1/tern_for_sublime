@@ -5,7 +5,7 @@ Top level management functions
 import sublime
 import os
 
-from .utils import tern_command
+from .utils import tern_command, project_dirname
 from .server import Server
 from .client import Client
 
@@ -43,7 +43,7 @@ class Manager(object):
         Starts servers for currently opened projects
         '''
         command = tern_command()
-        root_path = os.path.dirname(sublime.active_window().project_file_name())
+        root_path = project_dirname(sublime.active_window())
         server = Server(root_path, command)
         self.servers.append(server)
         for server in self.servers:

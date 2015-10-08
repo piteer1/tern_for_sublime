@@ -26,6 +26,9 @@ def get_setting(key, default):
         return new_settings.get(key, default)
 
 def tern_command():
+    '''
+    Gets tern command
+    '''
     command = get_setting("tern_command", None)
     if command is None:
         if not os.path.isdir(os.path.join(PLUGIN_DIR, "node_modules/tern")):
@@ -36,12 +39,7 @@ def tern_command():
                     "Yes, install."
                 ):
                 try:
-                    path = os.environ.get('PATH', '') + ':/usr/local/bin/'
-
-                    if hasattr(subprocess, "check_output"):
-                        subprocess.check_output(["npm", "install"], cwd=PLUGIN_DIR, env=dict(os.environ, PATH=path))
-                    else:
-                        subprocess.check_call(["npm", "install"], cwd=PLUGIN_DIR, env=dict(os.environ, PATH=path))
+                    tern_install()
                 except subprocess.CalledProcessError as ex:
                     msg = "Installation failed. Try doing 'npm install' manually in " + PLUGIN_DIR + "."
                     if hasattr(ex, "output"):
@@ -50,3 +48,17 @@ def tern_command():
                     return
         command = ["node", os.path.join(PLUGIN_DIR, "node_modules/.bin/tern")]
     return command
+
+def tern_install():
+    path = os.environ.get('PATH', '') + ':/usr/local/bin/'
+
+    if hasattr(subprocess, "check_output"):
+        subprocess.check_output(["npm", "install"], cwd=PLUGIN_DIR, env=dict(os.environ, PATH=path))
+    else:
+        subprocess.check_call(["npm", "install"], cwd=PLUGIN_DIR, env=dict(os.environ, PATH=path))
+
+def project_dirname(window):
+    '''
+    Gets a project dirname from a sublime window object
+    '''
+    return os.path.dirname(window.project_file_name())

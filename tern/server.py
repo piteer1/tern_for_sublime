@@ -28,9 +28,11 @@ class Server(object):
         if platform.system() == "Darwin":
             env = os.environ.copy()
             env["PATH"] += ":/usr/local/bin"
-        proc = subprocess.Popen(self.command + self.arguments, cwd=PLUGIN_DIR, env=env,
-                                stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                stderr=subprocess.STDOUT, shell=windows)
+        proc = subprocess.Popen(
+            self.command + self.arguments, cwd=PLUGIN_DIR, env=env,
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT, shell=windows
+        )
 
 
         line = proc.stdout.readline().decode("utf-8")

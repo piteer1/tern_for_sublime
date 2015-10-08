@@ -7,6 +7,7 @@ import sublime_plugin
 import os
 
 from .manager import Manager
+from .utils import project_dirname
 
 def is_js_file(filename):
     '''
@@ -26,5 +27,5 @@ class ViewModifiedListener(sublime_plugin.EventListener):
         manager = Manager.instance()
         if not is_js_file(view.file_name()):
             return
-        client = manager.client(os.path.dirname(view.window().project_file_name()))
+        client = manager.client(project_dirname(view.window()))
         client.request(view, {"type": "completions", "types": True})
