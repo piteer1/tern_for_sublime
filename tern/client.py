@@ -20,13 +20,15 @@ class Client(object):
         self.port = port
         self.root_path = root_path
 
-    def request(self, view, query):
+    def completions(self, view, query):
         '''
         Make a request to a server with given query
+        @TODO: change it so it will use internal request method with correct data formatted here
         '''
         text = view.substr(sublime.Region(0, view.size()))
         selection = view.sel()
         end = max(selection[0].a, selection[0].b)
+
         query['end'] = end
         query['file'] = '#0'
         # -> #<number> where number is the number of file in files array for which the completition is queried
@@ -37,6 +39,16 @@ class Client(object):
             "text": text
         }]}
 
+        output = self._request(document)
+
+        print('client output', output)
+
+        return output
+
+    def _request(self, document):
+        '''
+        Does a request to ternjs server
+        '''
         print('sending', document)
         serialized = json.dumps(document).encode('utf-8')
 
@@ -47,6 +59,4 @@ class Client(object):
         )
         response = urllib.request.urlopen(req)
 
-        output = json.loads(str(response.read().decode('utf-8')))
-        print('ternjs output', output)
-        return output
+        return json.loads(str(response.read().decode('utf-8')))

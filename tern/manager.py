@@ -44,6 +44,9 @@ class Manager(object):
         '''
         command = tern_command()
         root_path = project_dirname(sublime.active_window())
+        if root_path is None:
+            print('To use this plugin you have to create a project')
+            return
         server = Server(root_path, command)
         self.servers.append(server)
         for server in self.servers:
@@ -51,6 +54,9 @@ class Manager(object):
             self.clients.append(Client(server.port, root_path))
 
     def client(self, root_path):
-        return next(client for client in self.clients if client.root_path == root_path)
+        try:
+            return next(client for client in self.clients if client.root_path == root_path)
+        except StopIteration:
+            return None
 
 
