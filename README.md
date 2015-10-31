@@ -1,6 +1,17 @@
 # Tern for Sublime Text
 
-This is a [Sublime Text][st] (version 2 and 3) package that provides
+## Disclaimer
+This is a complete rewrite of [ternjs/tern_for_sublime](https://github.com/ternjs/tern_for_sublime). This project
+does not have yet the whole functionality that the original had, but IT DOES give you the completions ASYNC, so no
+lagging of sublime anymore.
+
+If you'll like it, fixes will be aplied and all the functionality ported here as well.
+
+
+Further, there's original README from ternjs project
+
+## Tern
+This is a [Sublime Text][st] (~~version 2 and 3~~ version 3) package that provides
 [Tern][tern]-based JavaScript editing support.
 
 [st]: http://www.sublimetext.com/
