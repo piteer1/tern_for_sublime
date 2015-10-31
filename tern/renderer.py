@@ -4,6 +4,7 @@ Methods for formatting/rendering query completions
 
 import re
 
+
 class Completion(object):
     '''
     Formats query completion
@@ -43,7 +44,7 @@ class Completion(object):
         stripped_fn = re.match(self.function_params, completion).group(1)
         separator = ', '
         return "(%s)" % separator.join([
-            "${%d:%s}" % (index + 1, value) for index, value in enumerate(stripped_fn.split(separator))
+            "${%d:%s}" % (index + 1, value.replace('}', "\}")) for index, value in enumerate(stripped_fn.split(separator))
         ])
 
     def __repr__(self):
